@@ -4,7 +4,6 @@ import java.net.UnknownHostException;
 
 import fiap.sd.udp.chat.Comandos;
 import fiap.sd.udp.chat.Mensagem;
-import fiap.sd.udp.chat.Operacoes;
 
 public class InitCliente {
 
@@ -30,8 +29,8 @@ public class InitCliente {
 		}
 
 		Mensagem msg = new Mensagem();
+		msg.setMensagem("");
 		msg.setComando(Comandos.ACESSAR);
-		msg.setMensagem(Operacoes.ACESSAR);
 		Cliente.sender.enviarMensagem(msg);
 	}
 

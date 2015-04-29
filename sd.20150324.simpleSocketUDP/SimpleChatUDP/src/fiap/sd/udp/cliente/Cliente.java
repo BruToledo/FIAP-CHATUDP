@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import fiap.sd.udp.chat.Comandos;
 import fiap.sd.udp.chat.Mensagem;
 
 public class Cliente {
@@ -13,17 +14,15 @@ public class Cliente {
 	private static final BufferedReader console = new BufferedReader(
 			new InputStreamReader(System.in));
 
-	public static void solicitarInputUsuario(String operacao) {
+	public static void solicitarInputUsuario(Comandos operacao) {
 		String message = null;
+		
 		Mensagem msg = new Mensagem();
-
-		// while (sender.isSocketAtivo()) {
 		message = solicitarInput();
 		
-		msg.setMensagem(operacao + message);
+		msg.setComando(operacao);
+		msg.setMensagem(message);
 		sender.enviarMensagem(msg);
-		// }
-
 	}
 
 	public static String solicitarInput() {

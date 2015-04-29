@@ -1,7 +1,7 @@
 package fiap.sd.udp.servidor;
 
+import fiap.sd.udp.chat.Comandos;
 import fiap.sd.udp.chat.Mensagem;
-import fiap.sd.udp.chat.Operacoes;
 import fiap.sd.udp.chat.Usuario;
 import fiap.sd.udp.simplechatudp.receiver.Receiver;
 
@@ -16,62 +16,55 @@ public class ServerReceiver extends Receiver {
 			Mensagem mensagem) {
 
 		mensagem.setIpDestino(ipOrigem);
-
-		// TODO mudar esquema de tratamento de comandos
 		
-		String[] dados = mensagem.getMensagem().split("\\|");
-		String operacao = dados[0].trim() + "|";
+		String msg = mensagem.getMensagem().trim();
+		Comandos operacao = mensagem.getComando();
 
 		switch (operacao) {
-		case Operacoes.ACESSAR:
+		case ACESSAR:
 			System.out.println("> IP " + ipOrigem
 					+ " acessando pela primeira vez");
 			Servidor.acessar(ipOrigem);
-			mensagem.setMensagem(Operacoes.REQUISITAR_NOME_USUARIO
-					+ "CHAT > Digite o seu nome de usuário: ");
+			mensagem.setComando(Comandos.REQUISITAR_NOME_USUARIO);
+			mensagem.setMensagem("CHAT > Digite o seu nome de usuário: ");
 			Servidor.sender.enviarMensagem(mensagem);
-
 			break;
 
-		case Operacoes.ENVIAR_NOME_USUARIO:
-			String nomeUsuario = dados[1].trim();
+		case ENVIAR_NOME_USUARIO:
+			String nomeUsuario = msg;
 			Usuario user = Servidor.obterUsuarioPorNome(nomeUsuario);
 			if (user == null) { // usuário não existe
 				Servidor.registrar(nomeUsuario);
-				mensagem.setMensagem(Operacoes.USUARIO_REGISTRADO_SUCESSO + "CHAT > "
+				mensagem.setComando(Comandos.USUARIO_REGISTRADO_SUCESSO);
+				mensagem.setMensagem(
+						"CHAT > "
 						+ nomeUsuario + " registrado com sucesso!\n"
 						+ Servidor.menu);
 			} else { // usuário já existe
-				mensagem.setMensagem(Operacoes.REQUISITAR_NOME_USUARIO
-						+ "CHAT > O usuário "
+				mensagem.setComando(Comandos.REQUISITAR_NOME_USUARIO);
+				mensagem.setMensagem(
+						"CHAT > O usuário "
 						+ nomeUsuario
 						+ " já está registrado\nCHAT > Digite o seu nome de usuário: ");
 			}
 
 			Servidor.sender.enviarMensagem(mensagem);
-
 			break;
 
-		case Operacoes.ESCOLHE_MENU:
-			System.out.println("Opção escolhida: " + dados[1].trim());
+		case ESCOLHE_MENU:
+			System.out.println("Opção escolhida: " + msg);
 			break;
 
-		case Operacoes.REGISTRAR:
-
-			System.out.println("Registrar " + dados[1]);
-
+		case REGISTRAR:
+			System.out.println("Registrar " + msg);
 			break;
+			
 		default:
 			mensagem.setMensagem("CHAT > Comando inválido!");
 			Servidor.sender.enviarMensagem(mensagem);
-
 			break;
 
 		}
-
-		// System.out.println("IP: " + ipOrigem + "\nPorta: " + portaOrigem
-		// + "\nmensagem: " + mensagem);
-
 	}
 
 }
