@@ -1,0 +1,14 @@
+package fiap.sd.udp.chat;
+
+
+public class Usuario {
+	public String nome;
+	public String ipUsuario;
+	public boolean isRegistrado = false;
+	
+	@Override
+	public boolean equals(Object obj) {
+		Usuario comp = (Usuario) obj;
+		return ipUsuario.equals(comp.ipUsuario);
+	}
+}

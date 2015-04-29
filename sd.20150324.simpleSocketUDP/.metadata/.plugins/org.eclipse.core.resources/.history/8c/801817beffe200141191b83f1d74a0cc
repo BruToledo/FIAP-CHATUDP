@@ -1,0 +1,7 @@
+package fiap.sd.udp.servidor;
+
+import Sender;
+
+public class ServerSender extends Sender {
+
+}

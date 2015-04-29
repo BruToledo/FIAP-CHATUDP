@@ -1,0 +1,78 @@
+package fiap.sd.udp.servidor;
+
+import fiap.sd.udp.chat.Mensagem;
+import fiap.sd.udp.chat.Operacoes;
+import fiap.sd.udp.chat.Usuario;
+import fiap.sd.udp.simplechatudp.receiver.Receiver;
+
+public class ServerReceiver extends Receiver {
+
+	public ServerReceiver(int port) {
+		super(port);
+	}
+
+	@Override
+	protected void trataMensagem(String ipOrigem, Integer portaOrigem,
+			Mensagem mensagem) {
+
+		Mensagem msg = new Mensagem();
+		msg.ipDestino = ipOrigem;
+
+		// TODO mudar esquema de tratamento de comandos
+		
+		String[] dados = mensagem.mensagem.split("\\|");
+		String operacao = dados[0].trim() + "|";
+
+		switch (operacao) {
+		case Operacoes.ACESSAR:
+			System.out.println("> IP " + ipOrigem
+					+ " acessando pela primeira vez");
+			Servidor.acessar(ipOrigem);
+			msg.mensagem = Operacoes.REQUISITAR_NOME_USUARIO
+					+ "CHAT > Digite o seu nome de usuário: ";
+			Servidor.sender.enviarMensagem(msg);
+
+			break;
+
+		case Operacoes.ENVIAR_NOME_USUARIO:
+			String nomeUsuario = dados[1].trim();
+			Usuario user = Servidor.obterUsuarioPorNome(nomeUsuario);
+			if (user == null) { // usuário não existe
+				Servidor.registrar(nomeUsuario);
+				msg.mensagem = Operacoes.USUARIO_REGISTRADO_SUCESSO + "CHAT > "
+						+ nomeUsuario + " registrado com sucesso!\n"
+						+ Servidor.menu;
+			} else { // usuário já existe
+				msg.mensagem = Operacoes.REQUISITAR_NOME_USUARIO
+						+ "CHAT > O usuário "
+						+ nomeUsuario
+						+ " já está registrado\nCHAT > Digite o seu nome de usuário: ";
+			}
+
+			Servidor.sender.enviarMensagem(msg);
+
+			break;
+
+		case Operacoes.ESCOLHE_MENU:
+			System.out.println("Opção escolhida: " + dados[1].trim());
+			break;
+
+		case Operacoes.REGISTRAR:
+
+			System.out.println("Registrar " + dados[1]);
+
+			break;
+		default:
+			msg.mensagem = "CHAT > Comando inválido!";
+			Servidor.sender.enviarMensagem(msg);
+
+			break;
+
+		}
+
+		// System.out.println("IP: " + ipOrigem + "\nPorta: " + portaOrigem
+		// + "\nMsg: " + mensagem);
+
+	}
+
+}

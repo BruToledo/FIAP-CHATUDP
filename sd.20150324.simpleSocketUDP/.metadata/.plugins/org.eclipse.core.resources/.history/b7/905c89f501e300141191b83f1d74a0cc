@@ -1,0 +1,7 @@
+package fiap.sd.udp.cliente;
+
+import fiap.sd.udp.simplechatudp.sender.Sender;
+
+public class ClientSender extends Sender {
+
+}

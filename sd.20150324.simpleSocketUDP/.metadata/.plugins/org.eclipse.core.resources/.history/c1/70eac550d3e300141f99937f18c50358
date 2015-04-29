@@ -1,0 +1,47 @@
+package fiap.sd.udp.cliente;
+
+
+public class Cliente {
+	
+	public static ClientSender sender;
+	
+//	private static final BufferedReader console = new BufferedReader(new InputStreamReader(
+//	System.in));
+//
+//public Sender(String destAddr, int destPort) {
+//try {
+//	this.speakSocket = new DatagramSocket();
+//	this.destAddress = InetAddress.getByName(destAddr);
+//	this.destPort = destPort;
+//	System.out.println("** Preparando para enviar mensagens para "
+//			+ this.destAddress + ":" + this.destPort);
+//} catch (IOException e) {
+//	e.printStackTrace();
+//	System.exit(-1);
+//}
+//}
+
+//public void run() {
+//String message = null;
+//while (speakSocket != null) {
+//	try {
+//		message = readMessage();
+//	} catch (IOException e) {
+//		System.out.println("Erro na entrada do teclado.");
+//		e.printStackTrace();
+//		System.exit(-1);
+//	}
+//	sendMessage(message);
+//}
+//}
+
+//private String readMessage() throws IOException {
+//System.out.print("Mensagem a ser enviada > ");
+//return console.readLine();
+//}
+	public static void createInputInterface() {
+		
+		
+
+	}
+}

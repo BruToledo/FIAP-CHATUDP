@@ -1,0 +1,5 @@
+package fiap.sd.udp.cliente;
+
+public class InitCliente {
+
+}

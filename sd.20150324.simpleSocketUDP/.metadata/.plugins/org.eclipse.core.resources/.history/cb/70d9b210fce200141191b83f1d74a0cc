@@ -1,0 +1,12 @@
+package fiap.sd.udp.servidor;
+
+import java.util.List;
+
+import fiap.sd.udp.chat.Usuario;
+
+public class Sala {
+	public String nome;
+	public String descricao;
+	public Usuario criador;
+	public List<Usuario> usuarios;
+}

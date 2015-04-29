@@ -1,0 +1,23 @@
+package fiap.sd.udp.cliente;
+
+import fiap.sd.udp.simplechatudp.receiver.Receiver;
+
+public class Cliente {
+	
+	public static ClientSender sender;
+	private static Receiver receiver;
+	
+	public static void main(String[] args) {
+		/*
+		 * 1 - Liga no servidor (9009)
+		 * 2 - Mando meu IP e Porta (172... 50001)
+		 * 3 - Espera resposta 
+		 * 4 - Server manda ok (está conectado)
+		 */
+		
+		receiver = new ClientReceiver(2500);
+		receiver.run();
+		
+		sender = new ClientSender();
+	}
+}

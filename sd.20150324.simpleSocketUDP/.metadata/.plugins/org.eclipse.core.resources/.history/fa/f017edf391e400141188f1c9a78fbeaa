@@ -1,0 +1,15 @@
+package fiap.sd.udp.chat;
+
+import java.net.InetAddress;
+
+public class Usuario {
+	public String nome;
+	public InetAddress ipUsuario;
+	public boolean isRegistrado = false;
+	
+	@Override
+	public boolean equals(Usuario obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+}

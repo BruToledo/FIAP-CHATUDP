@@ -1,0 +1,142 @@
+package fiap.sd.udp.servidor;
+
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import fiap.sd.udp.chat.Sala;
+import fiap.sd.udp.chat.Usuario;
+
+public class Servidor {
+	public static List<Sala> salas;
+	public static Set<Usuario> usuarios;
+	public static ServerSender sender;
+	static {
+		salas = new ArrayList<Sala>();
+		usuarios = new HashSet<Usuario>();
+		sender = new ServerSender();
+	}
+
+	public static void acessar(InetAddress ipUsuario) {
+		Usuario usuario = new Usuario();
+		usuario.ipUsuario = ipUsuario;
+		usuarios.add(usuario);
+	}
+
+	public static void registrar(String nomeUsuario) {
+		// TODO
+	}
+
+	public static Sala obterSalaPorNome(String nome) {
+		for (Sala s : salas) {
+			if (s != null && s.nome.equals(nome)) {
+				return s;
+			}
+		}
+		return null;
+
+	}
+
+	public static void entrar(String nomeUsuario, String nomeSala) {
+		Sala sala = obterSalaPorNome(nomeSala);
+		Usuario usuario = obterUsuarioPorNome(nomeUsuario);
+
+		if (sala != null) {
+			sala.usuarios.add(usuario);
+		} else {
+			// throw new Exception("Sala nao encontrada");
+		}
+	}
+
+	public static void sair(String nomeUsuario, String nomeSala) {
+		Sala sala = obterSalaPorNome(nomeSala);
+		Usuario usuario = obterUsuarioPorNome(nomeUsuario);
+
+		Usuario user = obterUsuarioPorNome(usuario.nome);
+
+		if (sala != null) {
+			sala.usuarios.remove(user);
+		} else {
+			// throw new Exception("Sala nao encontrada");
+		}
+	}
+
+	public static Usuario obterUsuarioPorNome(String nome) {
+		for (Usuario user : usuarios) {
+			if (user.nome == null) {
+				return null;
+			} else if (user.nome.equalsIgnoreCase(nome)) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	public static String listarSalas() {
+		String retorno = "Salas:\n";
+		for (int i = 0; i < salas.size(); i++) {
+			retorno += (i + 1) + " - " + salas.get(i).nome + "\n";
+		}
+		return retorno;
+	}
+
+	public static String listarUsuarios(String nomeSala) {
+		Sala sala = obterSalaPorNome(nomeSala);
+		String retorno = "Usuários da sala " + nomeSala + ":\n";
+		for (int i = 0; i < sala.usuarios.size(); i++) {
+			retorno += (i + 1) + " - " + sala.usuarios.get(i).nome + "\n";
+		}
+		return retorno;
+
+	}
+
+	// criarSala(usuárioCriador, nomeDaSala, descSala)
+
+	public static String criarSala(String nomeCriador, String nomeSala,
+			String descSala) {
+		Usuario user = obterUsuarioPorNome(nomeCriador);
+		Sala sala = new Sala();
+		sala.nome = nomeSala;
+		sala.descricao = descSala;
+		sala.criador = user;
+
+		entrar(nomeCriador, nomeSala);
+
+		salas.add(sala);
+
+		return "Criado com sucesso";
+
+	}
+
+	public static Usuario getUsuarioByIp(InetAddress ip) {
+		Usuario user = null;
+
+		for (Usuario usuario : usuarios) {
+			if (usuario.ipUsuario.equals(ip)) {
+				user = usuario;
+			}
+		}
+
+		return user;
+	}
+
+	/*
+	 * enviarMensagem(usuárioRemetente, nomeDaSala, msg) – envia a mensagem
+	 * “msg” para a sala “nomeDaSala”, garantindo o envio a todos os outros
+	 * usuários. ◦ enviarMensagemPrivada(usuárioOrigem, usuárioDestino, msg) –
+	 * Mensagem privada.
+	 */
+
+	public static void enviarMensagem(String remetente, String nomeSala,
+			String msg) {
+
+	}
+
+	public static void trataMensagem(InetAddress ipOrigem, Integer portaOrigem,
+			String mensagem) {
+
+	}
+
+}

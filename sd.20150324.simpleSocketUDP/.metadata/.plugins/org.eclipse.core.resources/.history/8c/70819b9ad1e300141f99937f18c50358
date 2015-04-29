@@ -1,0 +1,13 @@
+package fiap.sd.udp.cliente;
+
+public class InitCliente {
+	
+	private static Integer PORT_SEVIDOR = 9009;
+	private static String IP_SERVIDOR = "10.20.61.48";
+	
+	public static void main(String[] args) {
+		
+		
+		
+	}
+}

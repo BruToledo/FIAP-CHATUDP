@@ -1,0 +1,37 @@
+package fiap.sd.udp.cliente;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import fiap.sd.udp.chat.Mensagem;
+
+public class Cliente {
+
+	public static ClientSender sender;
+
+	private static final BufferedReader console = new BufferedReader(
+			new InputStreamReader(System.in));
+
+	public static void solicitarInputUsuario(String operacao) {
+		String message = null;
+		Mensagem msg = new Mensagem();
+		
+		//while (sender.isSocketAtivo()) {
+			try {
+				message = solicitarInput();
+			} catch (IOException e) {
+				System.out.println("Erro na entrada do teclado.");
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			msg.setMensagem(operacao + message);
+			sender.enviarMensagem(msg);
+		//}
+
+	}
+
+	public static String solicitarInput() throws IOException {
+		return console.readLine();
+	}
+}

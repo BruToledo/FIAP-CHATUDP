@@ -1,0 +1,9 @@
+package fiap.sd.udp.chat;
+
+import java.net.InetAddress;
+
+public class Usuario {
+	public String nome;
+	public InetAddress ipUsuario;
+	public boolean isRegistrado = false;
+}

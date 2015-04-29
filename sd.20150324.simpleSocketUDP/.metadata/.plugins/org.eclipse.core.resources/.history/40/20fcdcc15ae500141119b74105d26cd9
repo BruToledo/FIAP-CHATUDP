@@ -1,0 +1,22 @@
+package fiap.sd.udp.servidor;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+
+public class InitServidor {
+	private static final Integer PORT = 9009;
+
+	public static void main(String[] args) {
+		try {
+			System.out.println("> Iniciando servidor. IP: " + InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e) {
+			System.out.println("> Iniciando servidor.");
+		}
+		
+		
+		(new ServerReceiver(PORT)).start();
+		System.out.println("> Servidor iniciado com sucesso!");
+		
+	}
+}

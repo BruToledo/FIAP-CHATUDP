@@ -1,0 +1,20 @@
+package fiap.sd.udp.servidor;
+
+import fiap.sd.udp.simplechatudp.receiver.Receiver;
+
+public class InitServidor {
+	
+	private static Receiver receiver;
+
+	public static void main(String[] args) {
+		
+		(new ServerReceiver()).start();
+		
+		
+		RunReceiver o;
+
+		receiver = new ServerReceiver(9009); // porta do server
+		receiver.run();
+		// Servidor server = new Servidor();
+	}
+}

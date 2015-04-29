@@ -1,0 +1,8 @@
+package fiap.sd.udp.chat;
+
+
+public class Mensagem {
+	public String ipDestino;
+	public String comando;
+	public String mensagem;
+}

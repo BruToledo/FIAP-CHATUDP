@@ -1,0 +1,8 @@
+package fiap.sd.udp.cliente;
+
+
+public class Cliente {
+	
+	public static ClientSender sender;
+	
+}

@@ -1,0 +1,5 @@
+package fiap.sd.udp.chat;
+
+public class Mensagem {
+
+}

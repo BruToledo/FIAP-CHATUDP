@@ -1,0 +1,8 @@
+package fiap.sd.udp.servidor;
+
+
+public class ServerSender  {
+
+	public ServerSender(String destAddr, int destPort) {	}
+
+}

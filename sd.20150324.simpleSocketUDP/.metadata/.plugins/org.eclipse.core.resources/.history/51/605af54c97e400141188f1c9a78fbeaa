@@ -1,0 +1,11 @@
+package fiap.sd.udp.chat;
+
+public class Operacoes {
+
+	public static final String ACESSAR = "acessar";
+	public static final String REGISTRAR = "registrar";
+	public static final String REQUISITAR_NOME_USUARIO = "req_user";
+	public static final String ENVIAR_NOME_USUARIO = "send_user";
+	public static final String EXIBE_MSG = "exibe_msg";
+
+}

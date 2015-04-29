@@ -1,0 +1,20 @@
+package fiap.sd.udp.cliente;
+
+public class InitCliente {
+	
+	private static Integer PORT_LISTEN = 9010;
+	
+	public static void main(String[] args) {
+		(new ClientReceiver(PORT_LISTEN)).start();
+		Cliente.sender = new ClientSender();
+		
+		iniciarConexao();
+		
+		Cliente.createInputInterface();
+	}
+	
+	private static void iniciarConexao() {
+
+	}
+
+}

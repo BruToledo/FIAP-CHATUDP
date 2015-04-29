@@ -1,0 +1,66 @@
+package fiap.sd.udp.servidor;
+
+import java.net.InetAddress;
+
+import fiap.sd.udp.chat.Mensagem;
+import fiap.sd.udp.chat.Operacoes;
+import fiap.sd.udp.chat.Usuario;
+import fiap.sd.udp.simplechatudp.receiver.Receiver;
+
+public class ServerReceiver extends Receiver {
+
+	public ServerReceiver(int port) {
+		super(port);
+	}
+
+	@Override
+	protected void trataMensagem(InetAddress ipOrigem, Integer portaOrigem, String mensagem) {
+
+		Mensagem msg = new Mensagem();
+		msg.destAddress = ipOrigem;
+
+		String[] dados = mensagem.split("\\|");
+		String operacao = dados[0].trim() + "|";
+		
+		switch(operacao) {
+		case Operacoes.ACESSAR:
+			System.out.println("> IP " + ipOrigem + " acessando pela primeira vez");
+			Servidor.acessar(ipOrigem);
+			msg.mensagem = Operacoes.REQUISITAR_NOME_USUARIO + "CHAT > Digite o seu nome de usuário: ";
+			Servidor.sender.enviarMensagem(msg);
+			
+			break;
+		
+		case Operacoes.ENVIAR_NOME_USUARIO:
+			String nomeUsuario = dados[1].trim() ;
+			Usuario user = Servidor.obterUsuarioPorNome(nomeUsuario);
+			if(user == null) { // usuário não existe
+				Servidor.registrar(nomeUsuario);
+				msg.mensagem = Operacoes.EXIBE_MSG + "CHAT > " + nomeUsuario + " registrado com sucesso!";
+			} else { // usuário já existe
+				msg.mensagem = Operacoes.REQUISITAR_NOME_USUARIO + "CHAT > O usuário " + nomeUsuario + " já está registrado";
+			}
+			break;
+		case Operacoes.REGISTRAR:
+			
+			System.out.println("Registrar " + dados[1]);
+			
+			break;
+		default:
+			msg.mensagem = "CHAT > Comando inválido!";
+			Servidor.sender.enviarMensagem(msg);
+			
+			break;
+			
+		}
+		
+		// System.out.println("IP: " + ipOrigem + "\nPorta: " + portaOrigem
+		//		+ "\nMsg: " + mensagem);
+		
+		
+	}
+	
+	
+	
+
+}

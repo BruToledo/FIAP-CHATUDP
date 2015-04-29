@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="fiap.sd.udp.servidor.ServerReceiver"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.cliente.ClientReceiver"/>
+<fullyQualifiedTypeName name="java.net.UnknownHostException"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.simplechatudp.sender.Sender"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.cliente.ClientSender"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.chat.Usuario"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.servidor.ServerSender"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.servidor.Servidor"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.chat.Operacoes"/>
+<fullyQualifiedTypeName name="java.net.InetAddress"/>
+<fullyQualifiedTypeName name="java.lang.Readable"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.simplechatudp.receiver.Receiver"/>
+<fullyQualifiedTypeName name="com.google.gson.Gson"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.chat.Mensagem"/>
+<fullyQualifiedTypeName name="javax.net.ssl.HostnameVerifier"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.chat.Comandos"/>
+<fullyQualifiedTypeName name="fiap.sd.udp.cliente.Cliente"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+</qualifiedTypeNameHistroy>

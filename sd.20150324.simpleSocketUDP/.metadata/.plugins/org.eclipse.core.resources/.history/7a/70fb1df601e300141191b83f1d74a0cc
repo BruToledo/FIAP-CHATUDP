@@ -1,0 +1,11 @@
+package fiap.sd.udp.cliente;
+
+import fiap.sd.udp.simplechatudp.sender.Sender;
+
+public class ClientSender extends Sender {
+
+	public ClientSender() {
+		super(9009); // Cliente sempre envia para a 90090
+	}
+
+}

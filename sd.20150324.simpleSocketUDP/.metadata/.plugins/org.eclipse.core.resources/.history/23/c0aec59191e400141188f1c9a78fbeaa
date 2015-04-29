@@ -1,0 +1,10 @@
+package fiap.sd.udp.chat;
+
+import java.net.InetAddress;
+
+import fiap.sd.udp.simplechatudp.sender.Sender;
+
+public class Usuario {
+	public String nome;
+	public InetAddress ipUsuario;
+}

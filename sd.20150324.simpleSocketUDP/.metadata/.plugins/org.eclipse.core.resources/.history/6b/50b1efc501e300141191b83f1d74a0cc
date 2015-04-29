@@ -1,0 +1,9 @@
+package fiap.sd.udp.chat;
+
+import java.net.InetAddress;
+
+public class Mensagem {
+	public InetAddress destAddress;
+	public int destPort;
+	public String mensagem;
+}

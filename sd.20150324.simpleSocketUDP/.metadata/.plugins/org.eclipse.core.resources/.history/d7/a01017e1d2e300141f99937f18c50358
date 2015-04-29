@@ -1,0 +1,101 @@
+package fiap.sd.udp.simplechatudp.sender;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+
+import fiap.sd.udp.chat.Mensagem;
+
+/**
+ * Implementa o lado "Falador" de nosso chat UDP simples
+ * @author fm
+ *
+ */
+public class Sender extends Thread {
+	private DatagramSocket speakSocket;
+	private Integer PORTA;
+	private String IP_DESTINO;
+
+	public Sender(int porta) {
+		try {
+			PORTA = porta;
+			this.speakSocket = new DatagramSocket();
+		} catch (SocketException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+	
+	public Sender(String ipDestino, int porta) {
+		try {
+			PORTA = porta;
+			IP_DESTINO = ipDestino;
+			this.speakSocket = new DatagramSocket();
+		} catch (SocketException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+
+	public synchronized void enviarMensagem(Mensagem msg) {
+
+		try {
+			DatagramPacket packet = null;
+			
+			if(IP_DESTINO == null) {
+				packet = new DatagramPacket(
+						msg.mensagem.getBytes(),
+						msg.mensagem.length(), 
+						InetAddress.getByName(IP_DESTINO), 
+						PORTA);
+				
+			} else {
+				packet = new DatagramPacket(
+						msg.mensagem.getBytes(),
+						msg.mensagem.length(), 
+						msg.destAddress, 
+						PORTA);
+			}
+			
+			speakSocket.send(packet);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+//	private static final BufferedReader console = new BufferedReader(new InputStreamReader(
+//			System.in));
+//
+//	public Sender(String destAddr, int destPort) {
+//		try {
+//			this.speakSocket = new DatagramSocket();
+//			this.destAddress = InetAddress.getByName(destAddr);
+//			this.destPort = destPort;
+//			System.out.println("** Preparando para enviar mensagens para "
+//					+ this.destAddress + ":" + this.destPort);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			System.exit(-1);
+//		}
+//	}
+
+//	public void run() {
+//		String message = null;
+//		while (speakSocket != null) {
+//			try {
+//				message = readMessage();
+//			} catch (IOException e) {
+//				System.out.println("Erro na entrada do teclado.");
+//				e.printStackTrace();
+//				System.exit(-1);
+//			}
+//			sendMessage(message);
+//		}
+//	}
+
+//	private String readMessage() throws IOException {
+//		System.out.print("Mensagem a ser enviada > ");
+//		return console.readLine();
+//	}
+}

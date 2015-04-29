@@ -1,0 +1,40 @@
+package fiap.sd.udp.cliente;
+
+import java.net.InetAddress;
+
+import fiap.sd.udp.chat.Mensagem;
+import fiap.sd.udp.chat.Operacoes;
+import fiap.sd.udp.servidor.Servidor;
+import fiap.sd.udp.simplechatudp.receiver.Receiver;
+
+public class ClientReceiver extends Receiver {
+
+	public ClientReceiver(int port) {
+		super(port);
+	}
+
+	@Override
+	protected void trataMensagem(InetAddress ipOrigem, Integer portaOrigem, String mensagem) {
+		Mensagem msg = new Mensagem();
+		
+		String[] dados = mensagem.split("\\|");
+		String operacao = dados[0].trim();
+		
+		switch(operacao) {
+		case Operacoes.REQUISITAR_USUARIO:
+
+			System.out.println("> IP " + ipOrigem + " acessando pela primeira vez");
+			Servidor.acessar(ipOrigem);
+			msg.mensagem = Operacoes.REQUISITAR_USUARIO + "|CHAT > Digite o seu nome de usuário: ";
+			Servidor.sender.enviarMensagem(msg);
+			
+			break;
+		default:
+			
+			break;
+			
+		}
+		System.out.println(mensagem);
+	}
+
+}

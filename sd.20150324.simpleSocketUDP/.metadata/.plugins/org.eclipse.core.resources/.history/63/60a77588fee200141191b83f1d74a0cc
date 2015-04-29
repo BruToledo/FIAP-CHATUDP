@@ -1,0 +1,11 @@
+package fiap.sd.udp.servidor;
+
+import fiap.sd.udp.simplechatudp.sender.Sender;
+
+public class ServerSender  {
+
+	public ServerSender(String destAddr, int destPort) {
+		super(destAddr, destPort);
+	}
+
+}

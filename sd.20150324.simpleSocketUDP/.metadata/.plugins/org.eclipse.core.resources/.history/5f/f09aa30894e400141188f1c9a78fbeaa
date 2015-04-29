@@ -1,0 +1,18 @@
+package fiap.sd.udp.cliente;
+
+import java.net.InetAddress;
+
+import fiap.sd.udp.simplechatudp.receiver.Receiver;
+
+public class ClientReceiver extends Receiver {
+
+	public ClientReceiver(int port) {
+		super(port);
+	}
+
+	@Override
+	protected void trataMensagem(InetAddress ipOrigem, Integer portaOrigem, String mensagem) {
+		System.out.println("RESPOSTA DO SERVER: " + mensagem);
+	}
+
+}
