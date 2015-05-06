@@ -20,7 +20,7 @@ public abstract class Receiver extends Thread {
 	// PARA PESQUISAR: Qual o tamanho maximo do buffer?
 	private static int BUFSIZE = 4096;
 	private DatagramSocket listenSocket;
-	private Gson gson;
+	protected Gson gson;
 
 	private Receiver() {
 		gson = new Gson();

@@ -12,27 +12,34 @@ public class ClientReceiver extends Receiver {
 
 	@Override
 	protected void trataMensagem(String ipOrigem, Integer portaOrigem, Mensagem mensagem) {
-		
-		// TODO Mudar esquema de tratamento de comandos
-		
+				
 		String msg = mensagem.getMensagem().trim();
 		Comandos operacao = mensagem.getComando();
 		
 		switch(operacao) {
-		case REQUISITAR_NOME_USUARIO:
-			System.out.println(msg);			
-			Cliente.solicitarInputUsuario(Comandos.ENVIAR_NOME_USUARIO);
-			break;
-		case MENU_INVALIDO:
-		case LISTAR_SALA_SUCESSO:
-		case USUARIO_REGISTRADO_SUCESSO:
-			System.out.println(msg);			
-			Cliente.solicitarInputUsuario(Comandos.ESCOLHE_MENU);			
-			break;			
-		default:
-			
-			break;
-			
+			case REQUISITAR_NOME_USUARIO:
+				System.out.println(msg);			
+				Cliente.solicitarInputUsuario(Comandos.ENVIAR_NOME_USUARIO);
+				break;
+			case MENU_APP:
+			case COMANDO_INVALIDO:
+			case SUCESSO:
+				System.out.println(msg);			
+				Cliente.solicitarInputUsuario(Comandos.MENU_APP);			
+				break;	
+			case CRIAR_SALA:
+				System.out.println(msg);			
+				Cliente.solicitarInputCriarSala(Comandos.CRIAR_SALA);
+				break;
+			case ENTRAR_SALA:
+				System.out.println(msg);			
+				Cliente.solicitarInputUsuario(Comandos.ENTRAR_SALA);
+				break;
+			case MENU_SALA:
+				System.out.println(msg);			
+				Cliente.solicitarInputUsuario(Comandos.MENU_SALA);	
+			default:			
+				break;			
 		}
 	}
 

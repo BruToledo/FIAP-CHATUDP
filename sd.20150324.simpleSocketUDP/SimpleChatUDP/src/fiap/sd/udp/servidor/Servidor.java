@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import fiap.sd.udp.chat.Comandos;
+import fiap.sd.udp.chat.Mensagem;
 import fiap.sd.udp.chat.Sala;
 import fiap.sd.udp.chat.Usuario;
 
@@ -16,43 +18,42 @@ public class Servidor {
 	public static List<Sala> salas;
 	public static Set<Usuario> usuarios;
 	public static ServerSender sender;	
-	private static Map<Integer, String> _mapMenu = new HashMap<Integer, String>();
+	public static Map<Integer, String> _appMenu = new HashMap<Integer, String>();
+	public static Map<Integer, String> _roomMenu = new HashMap<Integer, String>();
 	
 	static {
 		salas = new ArrayList<Sala>();
 		usuarios = new HashSet<Usuario>();
 		sender = new ServerSender();
-		_mapMenu.put(1, "Listar Salas");
-		_mapMenu.put(2, "Criar Sala");
-		_mapMenu.put(3, "Entrar Sala");
+		
+		// Menu da Aplicação
+		_appMenu.put(1, "Listar Salas");
+		_appMenu.put(2, "Criar Sala");
+		_appMenu.put(3, "Entrar Sala");
+		
+		// Menu do Chat, dentro de uma sala
+		_roomMenu.put(1, "Ver Usuários da sala");
+		_roomMenu.put(2, "Enviar Mensagem");
+		_roomMenu.put(3, "Enviar Mensagem Privada");
+		_roomMenu.put(4, "Sair da Sala");
 	}
 
-	public static void acessar(String ipUsuario) {
-		Usuario usuario = new Usuario();
-		usuario.setIpUsuario(ipUsuario);
-		usuarios.add(usuario);
-	}
-
-	public static void registrar(String nomeUsuario) {
-		// TODO
-	}
-	
-	public static String menuToString() {
+	public static String menuToString(Map<Integer, String> menu) {
 		String menuToString = "";
-		for(Entry<Integer, String> menu : _mapMenu.entrySet()) {			
-		    Integer key = menu.getKey();
-		    String value = menu.getValue();		    
+		for(Entry<Integer, String> option : menu.entrySet()) {			
+		    Integer key = option.getKey();
+		    String value = option.getValue();		    
 		    menuToString += key + " - " + value + "\n";
 		}
 		
 		return menuToString;
 	}
 	
-	public static String menuToString(int keyToSkip) {
+	public static String menuToString(Map<Integer, String> menu, int keyToSkip) {
 		String menuToString = "";
-		for(Entry<Integer, String> menu : _mapMenu.entrySet()) {			
-		    Integer key = menu.getKey();
-		    String value = menu.getValue();
+		for(Entry<Integer, String> option : menu.entrySet()) {			
+		    Integer key = option.getKey();
+		    String value = option.getValue();
 		    
 		    if (keyToSkip == key)
 		    	continue;
@@ -61,11 +62,21 @@ public class Servidor {
 		}
 		
 		return menuToString;
-
 	}
 	
-	public static String getMenuByKey(int key) {
-		return _mapMenu.get(key);
+	public static void acessar(String ipUsuario) {
+		Usuario usuario = new Usuario();
+		usuario.setIpUsuario(ipUsuario);
+		usuarios.add(usuario);
+	}
+
+	public static void registrar(String nomeUsuario, String ipOrigem) {		
+		for (Usuario usuario : usuarios) {
+			if (usuario.getIpUsuario().equals(ipOrigem)) {
+				usuario.setNome(nomeUsuario);
+				usuario.setRegistrado(true);
+			}
+		}	
 	}
 
 	public static Sala obterSalaPorNome(String nome) {
@@ -77,29 +88,42 @@ public class Servidor {
 		return null;
 
 	}
+	
+	public static Sala obterSalaDoUsuario(String username) {
+		for (Sala s : salas) {
+			if (s != null) {				
+				for (Usuario user : s.usuarios) {
+					if (user != null && user.getNome().equals(username)) {
+						return s;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	public static void entrar(String nomeUsuario, String nomeSala) {
 		Sala sala = obterSalaPorNome(nomeSala);
 		Usuario usuario = obterUsuarioPorNome(nomeUsuario);
-
-		if (sala != null) {
-			sala.usuarios.add(usuario);
-		} else {
-			// throw new Exception("Sala nao encontrada");
+		sala.usuarios.add(usuario);
+			
+		for (Usuario user : sala.usuarios) {
+			Mensagem mensagem = new Mensagem(
+					user.getIpUsuario(),
+					Comandos.AVISO, 
+					"CHAT > Usuário " + nomeUsuario + " entrou na sala.\n");			
+			Servidor.sender.enviarMensagem(mensagem);
 		}
 	}
 
 	public static void sair(String nomeUsuario, String nomeSala) {
-		Sala sala = obterSalaPorNome(nomeSala);
-		Usuario usuario = obterUsuarioPorNome(nomeUsuario);
-
-		Usuario user = obterUsuarioPorNome(usuario.getNome());
-
-		if (sala != null) {
-			sala.usuarios.remove(user);
-		} else {
-			// throw new Exception("Sala nao encontrada");
-		}
+		Sala room = obterSalaPorNome(nomeSala);
+		
+		for (Usuario usuario : room.usuarios) {
+			if (usuario.getNome().equals(nomeUsuario)) {
+				room.usuarios.remove(usuario);
+			}
+		}		
 	}
 
 	public static Usuario obterUsuarioPorNome(String nome) {
@@ -113,26 +137,25 @@ public class Servidor {
 
 	public static String listarSalas() {
 		if (salas.size() <= 0)
-			return "Não existem salas cadastradas.\n";
+			return " --- Não existem salas cadastradas ---\n";
 		
-		String retorno = "Salas:\n";
+		String retorno = " --- Salas: ---\n";
 		for (int i = 0; i < salas.size(); i++) {
-			retorno += (i + 1) + " - " + salas.get(i).nome + "\n";
+			retorno +=  "(" + (i + 1) + ") " + salas.get(i).nome + "\n";
 		}
+		retorno += "--- ------- ----\n";
 		return retorno;
 	}
 
-	public static String listarUsuarios(String nomeSala) {
+	public static String listarUsuariosPorSala(String nomeSala) {
 		Sala sala = obterSalaPorNome(nomeSala);
-		String retorno = "Usuários da sala " + nomeSala + ":\n";
+		String retorno = " --- Usuários da sala " + nomeSala + ":  --- \n";
 		for (int i = 0; i < sala.usuarios.size(); i++) {
-			retorno += (i + 1) + " - " + sala.usuarios.get(i).getNome() + "\n";
+			retorno +=  "(" + (i + 1) + ") " + sala.usuarios.get(i).getNome() + "\n";
 		}
 		return retorno;
 
 	}
-
-	// criarSala(usuárioCriador, nomeDaSala, descSala)
 
 	public static String criarSala(String nomeCriador, String nomeSala,
 			String descSala) {
@@ -141,16 +164,13 @@ public class Servidor {
 		sala.nome = nomeSala;
 		sala.descricao = descSala;
 		sala.criador = user;
-
-		entrar(nomeCriador, nomeSala);
-
 		salas.add(sala);
-
-		return "Criado com sucesso";
-
+		entrar(nomeCriador, nomeSala);
+		
+		return "Sala criada com sucesso\n";
 	}
 
-	public static Usuario getUsuarioByIp(InetAddress ip) {
+	public static Usuario getUsuarioByIp(String ip) {
 		Usuario user = null;
 
 		for (Usuario usuario : usuarios) {

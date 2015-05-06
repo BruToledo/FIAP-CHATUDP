@@ -4,7 +4,19 @@ public class Mensagem {
 	private String ipDestino;
 	private Comandos comando;
 	private String mensagem;
+	
+	public Mensagem()
+	{
+		
+	}
 
+	public Mensagem(String ipDestino, Comandos comando, String mensagem)
+	{
+		this.ipDestino = ipDestino;
+		this.comando = comando;
+		this.mensagem = mensagem;
+	}
+	
 	public String getIpDestino() {
 		return ipDestino;
 	}

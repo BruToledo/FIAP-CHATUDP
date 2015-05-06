@@ -5,7 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-
 import com.google.gson.Gson;
 
 import fiap.sd.udp.chat.Mensagem;
