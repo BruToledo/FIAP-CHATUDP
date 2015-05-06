@@ -23,10 +23,12 @@ public class ClientReceiver extends Receiver {
 			System.out.println(msg);			
 			Cliente.solicitarInputUsuario(Comandos.ENVIAR_NOME_USUARIO);
 			break;
+		case MENU_INVALIDO:
+		case LISTAR_SALA_SUCESSO:
 		case USUARIO_REGISTRADO_SUCESSO:
 			System.out.println(msg);			
-			Cliente.solicitarInputUsuario(Comandos.ESCOLHE_MENU);
-			break;
+			Cliente.solicitarInputUsuario(Comandos.ESCOLHE_MENU);			
+			break;			
 		default:
 			
 			break;

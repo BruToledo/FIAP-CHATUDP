@@ -39,7 +39,7 @@ public class ServerReceiver extends Receiver {
 				mensagem.setMensagem(
 						"CHAT > "
 						+ nomeUsuario + " registrado com sucesso!\n"
-						+ Servidor.menu);
+						+ Servidor.menuToString());
 			} else { // usuário já existe
 				mensagem.setComando(Comandos.REQUISITAR_NOME_USUARIO);
 				mensagem.setMensagem(
@@ -52,7 +52,35 @@ public class ServerReceiver extends Receiver {
 			break;
 
 		case ESCOLHE_MENU:
-			System.out.println("Opção escolhida: " + msg);
+			int menuKey = Integer.parseInt(msg);
+			System.out.println("Opção escolhida: " + menuKey);
+			switch(menuKey)
+			{
+				case 1:
+					mensagem.setComando(Comandos.LISTAR_SALA_SUCESSO);
+					mensagem.setMensagem(
+							"CHAT >" + Servidor.listarSalas()
+							+ "Escolha uma nova opção:\n"
+							+ Servidor.menuToString(1)
+							);
+					break;
+				
+				case 2:
+					
+					break;
+					
+				case 3:
+					
+					break;
+				
+				default:
+					mensagem.setComando(Comandos.MENU_INVALIDO);
+					mensagem.setMensagem(
+							"CHAT > O menu selecionado é invalido, tente novamente! \n"
+							+ Servidor.menuToString());
+					break;
+			}
+			Servidor.sender.enviarMensagem(mensagem);
 			break;
 
 		case REGISTRAR:

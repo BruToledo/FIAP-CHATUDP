@@ -2,8 +2,11 @@ package fiap.sd.udp.servidor;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import fiap.sd.udp.chat.Sala;
@@ -12,16 +15,16 @@ import fiap.sd.udp.chat.Usuario;
 public class Servidor {
 	public static List<Sala> salas;
 	public static Set<Usuario> usuarios;
-	public static ServerSender sender;
-	
-	public static String menu = "1. Listar Salas\n"
-			+ "2. Criar Sala\n"
-			+ "3. Entrar Sala\n";
+	public static ServerSender sender;	
+	private static Map<Integer, String> _mapMenu = new HashMap<Integer, String>();
 	
 	static {
 		salas = new ArrayList<Sala>();
 		usuarios = new HashSet<Usuario>();
 		sender = new ServerSender();
+		_mapMenu.put(1, "Listar Salas");
+		_mapMenu.put(2, "Criar Sala");
+		_mapMenu.put(3, "Entrar Sala");
 	}
 
 	public static void acessar(String ipUsuario) {
@@ -32,6 +35,37 @@ public class Servidor {
 
 	public static void registrar(String nomeUsuario) {
 		// TODO
+	}
+	
+	public static String menuToString() {
+		String menuToString = "";
+		for(Entry<Integer, String> menu : _mapMenu.entrySet()) {			
+		    Integer key = menu.getKey();
+		    String value = menu.getValue();		    
+		    menuToString += key + " - " + value + "\n";
+		}
+		
+		return menuToString;
+	}
+	
+	public static String menuToString(int keyToSkip) {
+		String menuToString = "";
+		for(Entry<Integer, String> menu : _mapMenu.entrySet()) {			
+		    Integer key = menu.getKey();
+		    String value = menu.getValue();
+		    
+		    if (keyToSkip == key)
+		    	continue;
+		    
+		    menuToString += key + " - " + value + "\n";
+		}
+		
+		return menuToString;
+
+	}
+	
+	public static String getMenuByKey(int key) {
+		return _mapMenu.get(key);
 	}
 
 	public static Sala obterSalaPorNome(String nome) {
@@ -78,6 +112,9 @@ public class Servidor {
 	}
 
 	public static String listarSalas() {
+		if (salas.size() <= 0)
+			return "Não existem salas cadastradas.\n";
+		
 		String retorno = "Salas:\n";
 		for (int i = 0; i < salas.size(); i++) {
 			retorno += (i + 1) + " - " + salas.get(i).nome + "\n";
