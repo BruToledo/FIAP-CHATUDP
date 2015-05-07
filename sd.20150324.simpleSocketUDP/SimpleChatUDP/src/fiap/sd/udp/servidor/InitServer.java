@@ -7,6 +7,7 @@ public class InitServer {
 	private static final Integer PORT = 9009;
 
 	public static void main(String[] args) {
+		// teste
 
 		String hostServer = "";
 		try {
