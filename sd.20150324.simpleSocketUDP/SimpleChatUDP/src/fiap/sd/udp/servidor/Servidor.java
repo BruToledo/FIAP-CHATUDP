@@ -4,9 +4,11 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 
 import fiap.sd.udp.chat.Comandos;
@@ -64,6 +66,15 @@ public class Servidor {
 		return menuToString;
 	}
 	
+	public static Integer getKeyByValue(Map<Integer, String> menu, String value) {
+	    for (Entry<Integer, String> entry : menu.entrySet()) {
+	        if (Objects.equals(value, entry.getValue())) {
+	            return entry.getKey();
+	        }
+	    }
+	    return null;
+	}
+	
 	public static void acessar(String ipUsuario) {
 		Usuario usuario = new Usuario();
 		usuario.setIpUsuario(ipUsuario);
@@ -117,13 +128,21 @@ public class Servidor {
 	}
 
 	public static void sair(String nomeUsuario, String nomeSala) {
-		Sala room = obterSalaPorNome(nomeSala);
+		Sala room = obterSalaPorNome(nomeSala);	
+		Iterator<Usuario> iterUser = room.usuarios.iterator();	
 		
-		for (Usuario usuario : room.usuarios) {
+		while (iterUser.hasNext()) {			
+			Usuario usuario = iterUser.next();			
 			if (usuario.getNome().equals(nomeUsuario)) {
-				room.usuarios.remove(usuario);
+				iterUser.remove();
 			}
-		}		
+			
+			Mensagem mensagem = new Mensagem(
+					usuario.getIpUsuario(),
+					Comandos.AVISO, 
+					"CHAT > Usuário " + nomeUsuario + " saiu da sala.\n");			
+			Servidor.sender.enviarMensagem(mensagem);	
+		}
 	}
 
 	public static Usuario obterUsuarioPorNome(String nome) {
@@ -165,7 +184,7 @@ public class Servidor {
 		sala.descricao = descSala;
 		sala.criador = user;
 		salas.add(sala);
-		entrar(nomeCriador, nomeSala);
+		sala.usuarios.add(user);
 		
 		return "Sala criada com sucesso\n";
 	}
@@ -193,10 +212,9 @@ public class Servidor {
 			String msg) {
 
 	}
-
-	public static void trataMensagem(InetAddress ipOrigem, Integer portaOrigem,
-			String mensagem) {
+	
+	public static void enviarMensagemPrivada(String remetente, String nomeSala,
+			String msg) {
 
 	}
-
 }

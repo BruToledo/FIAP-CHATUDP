@@ -37,7 +37,7 @@ public class ServerReceiver extends Receiver {
 			Usuario user = Servidor.obterUsuarioPorNome(nomeUsuario);
 			if (user == null) { // usuário não existe
 				Servidor.registrar(nomeUsuario, ipOrigem);
-				mensagem.setComando(Comandos.SUCESSO);
+				mensagem.setComando(Comandos.MENU_APP);
 				mensagem.setMensagem(
 						"CHAT > "
 						+ nomeUsuario + " registrado com sucesso!\n"
@@ -53,13 +53,13 @@ public class ServerReceiver extends Receiver {
 			Servidor.sender.enviarMensagem(mensagem);
 			break;
 
-		case MENU_APP:
+		case MENU_APP:			
 			int menuAppKey = Integer.parseInt(msg);
 			System.out.println("[Menu App] Opção escolhida: " + menuAppKey);
 			switch(menuAppKey)
 			{
 				case 1:
-					mensagem.setComando(Comandos.SUCESSO);
+					mensagem.setComando(Comandos.MENU_APP);
 					mensagem.setMensagem(
 							"CHAT > \n" + Servidor.listarSalas()
 							+ "Escolha uma nova opção:\n"
@@ -142,9 +142,8 @@ public class ServerReceiver extends Receiver {
 				System.out.println("[Menu Sala] Opção escolhida: " + menuRoomKey);
 				switch(menuRoomKey)
 				{
-					// TODO TEST
 					case 1:
-						mensagem.setComando(Comandos.SUCESSO);
+						mensagem.setComando(Comandos.MENU_SALA);
 						mensagem.setMensagem(
 								"CHAT > \n" + Servidor.listarUsuariosPorSala(currentRoom.getNome())
 								+ "Escolha uma nova opção:\n"
@@ -152,11 +151,20 @@ public class ServerReceiver extends Receiver {
 								);
 						break;
 					
-					case 2:			
-						break;						
+					case 2:
+						
+						break;	
+						
 					case 3:
+						
 						break;
+						
 					case 4:
+						Servidor.sair(currentUser.getNome(), currentRoom.getNome());				
+						mensagem.setComando(Comandos.MENU_APP);
+						mensagem.setMensagem(
+								"CHAT > Oque deseja fazer?\n"
+								+ Servidor.menuToString(Servidor._appMenu));		
 						break;	
 						
 					default:

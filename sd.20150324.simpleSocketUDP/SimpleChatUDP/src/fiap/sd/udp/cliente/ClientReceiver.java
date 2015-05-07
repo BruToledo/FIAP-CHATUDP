@@ -17,13 +17,15 @@ public class ClientReceiver extends Receiver {
 		Comandos operacao = mensagem.getComando();
 		
 		switch(operacao) {
+			case AVISO:
+				System.out.println(msg);
+				break;	
 			case REQUISITAR_NOME_USUARIO:
 				System.out.println(msg);			
 				Cliente.solicitarInputUsuario(Comandos.ENVIAR_NOME_USUARIO);
 				break;
 			case MENU_APP:
 			case COMANDO_INVALIDO:
-			case SUCESSO:
 				System.out.println(msg);			
 				Cliente.solicitarInputUsuario(Comandos.MENU_APP);			
 				break;	
@@ -37,9 +39,10 @@ public class ClientReceiver extends Receiver {
 				break;
 			case MENU_SALA:
 				System.out.println(msg);			
-				Cliente.solicitarInputUsuario(Comandos.MENU_SALA);	
-			default:			
+				Cliente.solicitarInputUsuario(Comandos.MENU_SALA);			
 				break;			
+			default:
+				break;
 		}
 	}
 
