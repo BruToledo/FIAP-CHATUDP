@@ -7,13 +7,10 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
-import fiap.sd.udp.chat.Mensagem;
+import fiap.sd.udp.chat.Message;
 
 /**
  * Implementa o lado "Ouvidor" de nosso chat UDP simples
- * 
- * @author fm
- *
  */
 public abstract class Receiver extends Thread {
 
@@ -38,8 +35,8 @@ public abstract class Receiver extends Thread {
 		}
 	}
 
-	protected abstract void trataMensagem(String ipOrigem, Integer portaOrigem,
-			Mensagem mensagem);
+	protected abstract void treatMessage(String sourceIp, Integer sourcePort,
+			Message message);
 
 	public void run() {
 		String ip;
@@ -55,13 +52,13 @@ public abstract class Receiver extends Thread {
 					ip = ip.substring(1);
 				}
 
-				trataMensagem(
+				treatMessage(
 						ip, 
 						packet.getPort(),
 						gson.fromJson(
 								new String(
 										packet.getData()), 
-										Mensagem.class));
+										Message.class));
 
 				Thread.yield();
 			} catch (IOException e) {

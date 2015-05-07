@@ -3,20 +3,20 @@ package fiap.sd.udp.servidor;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class InitServidor {
+public class InitServer {
 	private static final Integer PORT = 9009;
 
 	public static void main(String[] args) {
 
-		String hostServidor = "";
+		String hostServer = "";
 		try {
-			hostServidor = InetAddress.getLocalHost().getHostAddress();
+			hostServer = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
 			System.err
 					.println(">> ERRO NÃO-FATAL: Não foi possível identificar o IP do Servidor.");
 		}
 
-		System.out.println("> Iniciando servidor." + hostServidor);
+		System.out.println("> Iniciando servidor." + hostServer);
 
 		(new ServerReceiver(PORT)).start();
 		

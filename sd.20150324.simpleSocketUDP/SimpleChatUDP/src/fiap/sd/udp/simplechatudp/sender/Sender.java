@@ -8,18 +8,15 @@ import java.net.SocketException;
 
 import com.google.gson.Gson;
 
-import fiap.sd.udp.chat.Mensagem;
+import fiap.sd.udp.chat.Message;
 
 /**
  * Implementa o lado "Falador" de nosso chat UDP simples
- * 
- * @author fm
- *
  */
 public class Sender {
 	private DatagramSocket speakSocket;
-	private Integer PORTA;
-	private String IP_DESTINO;
+	private Integer PORT;
+	private String DESTINATION_IP;
 	private Gson gson;
 
 	private Sender() {
@@ -32,32 +29,32 @@ public class Sender {
 
 	}
 
-	public Sender(int porta) {
+	public Sender(int port) {
 		this();
-		PORTA = porta;
+		PORT = port;
 	}
 
-	public Sender(String ipDestino, int porta) {
+	public Sender(String destinationIp, int port) {
 		this();
-		PORTA = porta;
-		IP_DESTINO = ipDestino;
+		PORT = port;
+		DESTINATION_IP = destinationIp;
 	}
 
-	public synchronized void enviarMensagem(Mensagem msg) {
+	public synchronized void sendMessage(Message message) {
 
 		try {
 			DatagramPacket packet = null;
-			String jsonMsg = gson.toJson(msg);
+			String jsonMsg = gson.toJson(message);
 
-			if (IP_DESTINO != null) {
+			if (DESTINATION_IP != null) {
 				packet = new DatagramPacket(jsonMsg.getBytes(),
-						jsonMsg.length(), InetAddress.getByName(IP_DESTINO),
-						PORTA);
+						jsonMsg.length(), InetAddress.getByName(DESTINATION_IP),
+						PORT);
 
 			} else {
 				packet = new DatagramPacket(jsonMsg.getBytes(),
-						jsonMsg.length(), InetAddress.getByName(msg.getIpDestino()),
-						PORTA);
+						jsonMsg.length(), InetAddress.getByName(message.getDestinationIp()),
+						PORT);
 			}
 
 			speakSocket.send(packet);

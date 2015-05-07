@@ -1,7 +1,7 @@
 package fiap.sd.udp.cliente;
 
-import fiap.sd.udp.chat.Comandos;
-import fiap.sd.udp.chat.Mensagem;
+import fiap.sd.udp.chat.Commands;
+import fiap.sd.udp.chat.Message;
 import fiap.sd.udp.simplechatudp.receiver.Receiver;
 
 public class ClientReceiver extends Receiver {
@@ -11,35 +11,35 @@ public class ClientReceiver extends Receiver {
 	}
 
 	@Override
-	protected void trataMensagem(String ipOrigem, Integer portaOrigem, Mensagem mensagem) {
+	protected void treatMessage(String sourceIp, Integer sourcePort, Message message) {
 				
-		String msg = mensagem.getMensagem().trim();
-		Comandos operacao = mensagem.getComando();
+		String msg = message.getMessage().trim();
+		Commands operation = message.getCommand();
 		
-		switch(operacao) {
-			case AVISO:
+		switch(operation) {
+			case NOTIFICATION:
 				System.out.println(msg);
 				break;	
-			case REQUISITAR_NOME_USUARIO:
+			case REQUEST_USER_NAME:
 				System.out.println(msg);			
-				Cliente.solicitarInputUsuario(Comandos.ENVIAR_NOME_USUARIO);
+				Client.requestUserInput(Commands.SEND_USER_NAME);
 				break;
 			case MENU_APP:
-			case COMANDO_INVALIDO:
+			case INVALID_COMMAND:
 				System.out.println(msg);			
-				Cliente.solicitarInputUsuario(Comandos.MENU_APP);			
+				Client.requestUserInput(Commands.MENU_APP);			
 				break;	
-			case CRIAR_SALA:
+			case REQUEST_CREATE_ROOM:
 				System.out.println(msg);			
-				Cliente.solicitarInputCriarSala(Comandos.CRIAR_SALA);
+				Client.requestUserInputForRoomCreation(Commands.SEND_CREATE_ROOM);
 				break;
-			case ENTRAR_SALA:
+			case REQUEST_JOIN_ROOM:
 				System.out.println(msg);			
-				Cliente.solicitarInputUsuario(Comandos.ENTRAR_SALA);
+				Client.requestUserInput(Commands.SEND_JOIN_ROOM);
 				break;
-			case MENU_SALA:
+			case MENU_ROOM:
 				System.out.println(msg);			
-				Cliente.solicitarInputUsuario(Comandos.MENU_SALA);			
+				Client.requestUserInput(Commands.MENU_ROOM);			
 				break;			
 			default:
 				break;
