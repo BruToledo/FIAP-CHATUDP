@@ -40,7 +40,11 @@ public class ClientReceiver extends Receiver {
 			case MENU_ROOM:
 				System.out.println(msg);			
 				Client.requestUserInput(Commands.MENU_ROOM);			
-				break;			
+				break;		
+			case REQUEST_MESSAGE:
+				System.out.println(msg);
+				Client.requestUserInput(Commands.SEND_MESSAGE);
+				break;
 			default:
 				break;
 		}

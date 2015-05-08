@@ -142,6 +142,7 @@ public class ServerReceiver extends Receiver {
 				System.out.println("[Menu Sala] Opção escolhida: " + menuRoomKey);
 				switch(menuRoomKey)
 				{
+					//ver usuários da sala
 					case 1:
 						message.setCommand(Commands.MENU_ROOM);
 						message.setMessage(
@@ -152,7 +153,18 @@ public class ServerReceiver extends Receiver {
 						break;
 					
 					case 2:
+						String msge = new String();
+						message.setCommand(Commands.REQUEST_MESSAGE);
+						message.setMessage("CHAT > escreva a mensagem \n");			
+						Server.sender.sendMessage(message);
 						
+						
+						
+						//for (User u : currentRoom.getUsers()) {
+						//	message.setCommand(Commands.NOTIFICATION);
+						//	message.setMessage("CHAT > Usuário " + currentUser.getName() + ": " + msge + "\n");			
+						//	Server.sender.sendMessage(message);
+						//}
 						break;	
 						
 					case 3:
