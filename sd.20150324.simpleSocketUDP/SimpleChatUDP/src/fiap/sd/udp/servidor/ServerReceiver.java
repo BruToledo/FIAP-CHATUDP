@@ -171,8 +171,18 @@ public class ServerReceiver extends Receiver {
 						
 						break;
 						
+					// Sair da Sala
 					case 4:
 						Server.leftRoom(currentUser.getName(), currentRoom.getName());				
+						message.setCommand(Commands.MENU_APP);
+						message.setMessage(
+								"CHAT > Oque deseja fazer?\n"
+								+ Server.menuToString(Server._appMenu));		
+						break;	
+						
+					// Excluir a Sala	
+					case 5:
+						Server.deleteRoom(currentUser.getName(), currentRoom.getName());				
 						message.setCommand(Commands.MENU_APP);
 						message.setMessage(
 								"CHAT > Oque deseja fazer?\n"

@@ -37,6 +37,7 @@ public class Server {
 		_roomMenu.put(2, "Enviar Mensagem");
 		_roomMenu.put(3, "Enviar Mensagem Privada");
 		_roomMenu.put(4, "Sair da Sala");
+		_roomMenu.put(5, "Encerrar/ Excluir a Sala");
 	}
 
 	public static String menuToString(Map<Integer, String> menu) {
@@ -142,6 +143,34 @@ public class Server {
 					"CHAT > Usuário " + userName + " saiu da sala.\n");			
 			Server.sender.sendMessage(mensagem);	
 		}
+	}
+	
+	public static void deleteRoom(String userName, String roomName) {
+		Room room = getRoomByName(roomName);
+		User user = getUserByName(userName);
+		
+		if(room.getOwner().equals(user)){				
+			rooms.remove(room);			
+			
+			Iterator<User> iterUser = room.getUsers().iterator();			
+			while (iterUser.hasNext()) {			
+				User usuario = iterUser.next();			
+
+				Message mensagem = new Message(
+						usuario.getUserIp(),
+						Commands.NOTIFICATION, 
+						"CHAT > Você foi removido da sala " + room.getName() + ", pois a sala foi deletada pelo administrador.\n");			
+				Server.sender.sendMessage(mensagem);	
+			}			
+		}
+		else
+		{
+			Message mensagem = new Message(
+					user.getUserIp(),
+					Commands.NOTIFICATION, 
+					"CHAT > A sala somente pode ser deletada pelo administrador.\n");			
+			Server.sender.sendMessage(mensagem);	
+		}		
 	}
 
 	public static User getUserByName(String name) {
