@@ -153,18 +153,9 @@ public class ServerReceiver extends Receiver {
 						break;
 					
 					case 2:
-						String msge = new String();
 						message.setCommand(Commands.REQUEST_MESSAGE);
-						message.setMessage("CHAT > escreva a mensagem \n");			
-						Server.sender.sendMessage(message);
+						message.setMessage("CHAT > escreva a mensagem \n");
 						
-						
-						
-						//for (User u : currentRoom.getUsers()) {
-						//	message.setCommand(Commands.NOTIFICATION);
-						//	message.setMessage("CHAT > Usuário " + currentUser.getName() + ": " + msge + "\n");			
-						//	Server.sender.sendMessage(message);
-						//}
 						break;	
 						
 					case 3:
@@ -206,7 +197,13 @@ public class ServerReceiver extends Receiver {
 					+ Server.menuToString(Server._appMenu));				
 			}
 			break;
-						
+			
+		case SEND_MESSAGE:
+			Room cRum = Server.getRoomByUser(currentUser.getName());
+			message.setCommand(Commands.MENU_ROOM);
+			Server.sendMessage(currentUser.getName(), cRum.getName(), message.getMessage());
+			
+			
 		default:
 			message.setCommand(Commands.NOTIFICATION);
 			message.setMessage("CHAT > Comando inválido!\n");		

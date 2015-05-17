@@ -234,11 +234,22 @@ public class Server {
 
 	public static void sendMessage(String remetente, String nomeSala,
 			String msg) {
-
+		
+		for (User u : getRoomByName(nomeSala).getUsers()) {
+			Message message = new Message();
+			message.setDestinationIp(u.getUserIp());
+			message.setCommand(Commands.MENU_ROOM);
+			message.setMessage("CHAT > Usuário " + remetente + ": " + msg + "\n");			
+			Server.sender.sendMessage(message);
+		}
 	}
 	
-	public static void sendPrivateMessage(String remetente, String nomeSala,
+	public static void sendPrivateMessage(String remetente, String destino, String nomeSala,
 			String msg) {
-
+		Message message = new Message();
+		message.setDestinationIp(destino);
+		message.setCommand(Commands.NOTIFICATION);
+		message.setMessage("CHAT > Usuário " + remetente + ": " + msg + "\n");			
+		Server.sender.sendMessage(message);
 	}
 }
