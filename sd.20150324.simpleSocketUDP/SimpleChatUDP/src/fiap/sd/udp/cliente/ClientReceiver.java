@@ -45,9 +45,6 @@ public class ClientReceiver extends Receiver {
 				System.out.println(msg);
 				Client.requestUserInput(Commands.SEND_MESSAGE);
 				break;
-			case REQUEST_PRIVATE_USER:
-				//System.out.println(msg);
-				Client.requestUserInput(Commands.SEND_PRIVATE_USER);
 			case REQUEST_MESSAGE_PRIVATE:
 				System.out.println(msg);
 				Client.requestUserInputForPrivateMessage(Commands.SEND_MESSAGE_PRIVATE);
