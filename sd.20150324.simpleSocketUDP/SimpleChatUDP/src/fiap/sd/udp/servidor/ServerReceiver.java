@@ -159,6 +159,8 @@ public class ServerReceiver extends Receiver {
 						break;	
 						
 					case 3:
+						message.setCommand(Commands.REQUEST_MESSAGE_PRIVATE);
+						message.setMessage("CHAT > escreva o usuario: \n");
 						
 						break;
 						
@@ -199,10 +201,16 @@ public class ServerReceiver extends Receiver {
 			break;
 			
 		case SEND_MESSAGE:
-			Room cRum = Server.getRoomByUser(currentUser.getName());
+			Room cRoom = Server.getRoomByUser(currentUser.getName());
 			message.setCommand(Commands.MENU_ROOM);
-			Server.sendMessage(currentUser.getName(), cRum.getName(), message.getMessage());
+			Server.sendMessage(currentUser.getName(), cRoom.getName(), message.getMessage());
+			Server.sender.sendMessage(message);
 			
+		case SEND_MESSAGE_PRIVATE:
+			Room bRoom = Server.getRoomByUser(currentUser.getName());
+			message.setCommand(Commands.MENU_ROOM);			
+			Server.sendPrivateMessage(currentUser.getName(), message.getDestinationUser(), bRoom.getName(), message.getMessage());
+			Server.sender.sendMessage(message);
 			
 		default:
 			message.setCommand(Commands.NOTIFICATION);

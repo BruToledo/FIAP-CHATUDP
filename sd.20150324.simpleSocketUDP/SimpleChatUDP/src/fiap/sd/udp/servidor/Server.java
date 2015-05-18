@@ -246,10 +246,29 @@ public class Server {
 	
 	public static void sendPrivateMessage(String remetente, String destino, String nomeSala,
 			String msg) {
-		Message message = new Message();
-		message.setDestinationIp(destino);
-		message.setCommand(Commands.NOTIFICATION);
-		message.setMessage("CHAT > Usuário " + remetente + ": " + msg + "\n");			
-		Server.sender.sendMessage(message);
+		
+		try{
+			Room r = getRoomByUser(destino);
+			User u = getUserByName(destino);
+			Message message = new Message();
+			if(r != null){				
+				message.setDestinationIp(u.getUserIp());
+				message.setCommand(Commands.MENU_ROOM);
+				message.setMessage("CHAT > Usuário " + remetente + ": " + msg + "\n");	
+			}
+			else{
+				message.setCommand(Commands.MENU_ROOM);
+				message.setMessage("CHAT > Usuário"+ destino+ " não estava na sala \n");			
+			}
+			Server.sender.sendMessage(message);
+		}
+		catch(Exception e){
+			Message message = new Message();
+			message.setCommand(Commands.MENU_ROOM);
+			message.setMessage("CHAT > erro ao enviar mensagem \n");	
+			Server.sender.sendMessage(message);
+		}
+		
+		
 	}
 }

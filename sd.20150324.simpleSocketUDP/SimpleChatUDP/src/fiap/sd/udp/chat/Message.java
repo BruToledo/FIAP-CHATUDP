@@ -4,6 +4,7 @@ public class Message {
 	private String destinationIp;
 	private Commands command;
 	private String message;
+	private String destinationUser;
 	
 	public Message()
 	{		
@@ -38,5 +39,13 @@ public class Message {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getDestinationUser() {
+		return destinationUser;
+	}
+
+	public void setDestinationUser(String destinationUser) {
+		this.destinationUser = destinationUser;
 	}		
 }

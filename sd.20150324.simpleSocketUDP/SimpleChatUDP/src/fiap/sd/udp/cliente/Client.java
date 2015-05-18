@@ -24,6 +24,22 @@ public class Client {
 		
 		msg.setCommand(operation);
 		msg.setMessage(message);
+		
+		sender.sendMessage(msg);
+	}
+	
+	public static void requestUserInputForPrivateMessage(Commands operation) {
+		String message = null;
+		
+		Message msg = new Message();
+		message = requestInput();
+		
+		msg.setCommand(operation);
+		msg.setDestinationUser(message);
+		
+		System.out.println("CHAT > escreva a mensagem");
+		msg.setMessage(requestInput());
+		
 		sender.sendMessage(msg);
 	}
 	
